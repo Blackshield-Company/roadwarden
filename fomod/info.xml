@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fomod>
+  <Name>Roadwarden</Name>
+  <Author>synthalorian</Author>
+  <Version>@VERSION@</Version>
+  <Website>https://github.com/synthalorian/roadwarden</Website>
+  <Description>Rare, level-scaled road encounters: highwaymen ambushes, merchants in trouble, deserters demanding a toll, wounded couriers. They spawn on the road you just traveled, never in cities or in combat. Configurable with console globals. Base game only, no SKSE. Early beta.</Description>
+  <Groups>
+    <element>Gameplay</element>
+  </Groups>
+</fomod>
