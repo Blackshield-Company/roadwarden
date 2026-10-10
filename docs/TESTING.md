@@ -1,4 +1,4 @@
-# Testing checklist (v0.1.0, early beta)
+# Testing checklist (v0.1.1, early beta)
 
 Automated (every `./build.sh`):
 
@@ -7,7 +7,7 @@ Automated (every `./build.sh`):
 - [x] FOMOD schema.
 - [x] Cross-mod check (`tools/modkit/Modkit.Compat`) with every released mod of the series.
 
-In game (not done yet; please help). The fastest way to test is the debug trigger: walk along a road for 20 or 30 seconds (so markers exist behind you), then `set RWD_ForceNext to <1-4>`. The encounter starts on the next 5-second tick once there is a marker in range.
+In game (not done yet; please help). On load you should see "Roadwarden active"; `getqr RWD_RoadQuest` should print 1. `set RWD_Debug to 1` logs every check and its reject reason. The fastest way to test is the debug trigger: walk along a road for 20 or 30 seconds (so markers exist behind you), then `set RWD_ForceNext to <1-4>`. The encounter starts on the next 5-second tick once there is a marker in range.
 
 Useful: `help "Highwayman" 4`, `help "Deserter" 4`, `help "Traveling Merchant" 4`, `help "Wounded Courier" 4` list the actor FormIDs (they load as FE xxx 8xx). `show RWD_EncounterCount` counts encounters.
 
@@ -30,10 +30,11 @@ Useful: `help "Highwayman" 4`, `help "Deserter" 4`, `help "Traveling Merchant" 4
    - [ ] The box offers potion, healing spell or leave. Without a potion or spell, a notification shows and the box comes back.
    - [ ] Helping heals the courier and shows the thanks box with gold. About 40% of the time: "The courier's attackers have caught up!" and highwaymen attack.
 5. **Rules**
-   - [ ] Nothing happens in towns, cities, inns, interiors, camps, dungeons or forts, during combat, or within 2 minutes after a fight (normal mode, `RWD_ForceNext 0`).
+   - [ ] Nothing happens in towns, cities, settlements, homes or interiors, during combat, or within 2 minutes after a fight (normal mode, `RWD_ForceNext 0`).
    - [ ] After an encounter, walking about 90 m away removes the leftover actors (check with `prid <id>` that they are gone).
    - [ ] Save and reload during an encounter: it keeps running and cleans up afterwards.
    - [ ] `set RWD_Enabled to 0`: no new encounters.
+   - [ ] On horseback, `set RWD_ForceNext to 1` still starts an ambush.
 6. **With Contract Hunter** (optional)
    - [ ] Let a Dread warrant lapse and make sure the avengers and a Roadwarden encounter don't arrive together. Roadwarden should stay quiet for 2 minutes after the avengers' fight.
 

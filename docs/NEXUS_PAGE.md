@@ -1,17 +1,17 @@
 # Nexus Mods page: Roadwarden
 
-Early beta: v0.1.0 passes every automated build check but nobody has playtested it in game yet. The page says this at the top. The exact upload-form values are in [NEXUS_FIELDS.md](NEXUS_FIELDS.md).
+Early beta: v0.1.1 passes every automated build check but nobody has playtested it in game yet. The page says this at the top. The exact upload-form values are in [NEXUS_FIELDS.md](NEXUS_FIELDS.md).
 
 ## Page settings
 
 - **Game:** Skyrim Special Edition
 - **Mod name:** Roadwarden
-- **Version:** 0.1.0 (early beta)
+- **Version:** 0.1.1 (early beta)
 - **Category:** Gameplay
 - **Suggested tags:** Gameplay, Combat, Encounters, Immersion, Bandits, Lore-Friendly, ESL, No SKSE, Scripted
 - **Requirements:** none.
 - **Permissions (suggested):** the source is on GitHub under MIT, so allow modification and conversions with credit, but not re-uploads of the archive itself.
-- **File to upload:** `Roadwarden-0.1.0.zip` (FOMOD) as the main file, named "Roadwarden".
+- **File to upload:** `Roadwarden-0.1.1.zip` (FOMOD) as the main file, named "Roadwarden".
 
 ## Description (paste into the BBCode editor)
 
@@ -19,7 +19,7 @@ Early beta: v0.1.0 passes every automated build check but nobody has playtested 
 [center][size=6][b]ROADWARDEN[/b][/size]
 [size=3][i]The road is never as empty as it looks.[/i][/size]
 
-[size=3][color=#e0a030][b]EARLY BETA (v0.1.0)[/b]: this version passes every automated build check but hasn't been playtested in game yet. Please report bugs in the Bugs tab or on GitHub, ideally with your Papyrus log.[/color][/size][/center]
+[size=3][color=#e0a030][b]EARLY BETA (v0.1.1)[/b]: this version passes every automated build check but hasn't been playtested in game yet. Please report bugs in the Bugs tab or on GitHub, ideally with your Papyrus log.[/color][/size][/center]
 
 [line]
 
@@ -37,9 +37,10 @@ Leveled bandit, soldier and wolf templates, plus 2 to 4 attackers depending on y
 
 [size=4][b]When and where[/b][/size]
 [list]
-[*]Only outdoors, on ground you just walked through, 10 to 50 m behind you.
-[*]Never in cities, towns, settlements, inns, homes, camps, dungeons or forts. Never during Helgen, in combat, or within 2 minutes after a fight.
-[*]Rare: one check a minute while you travel, a 10% chance, and at least 8 game hours between encounters.
+[*]Only outdoors, on ground you just walked or rode through, about 20 to 50 m behind you (deserters and the courier call out from about 10 to 25 m).
+[*]Never in cities, towns, settlements, homes or any interior (inns, dungeons, forts inside). Never during Helgen, in combat, or within 2 minutes after a fight. Riding a horse counts as travel.
+[*]Rare: one check every 45 seconds while you travel, a 15% chance, and at least 4 game hours between encounters.
+[*]Fast travel and carriages skip the road, so they never trigger encounters. You only meet people on roads you actually walk or ride.
 [*]Leftover actors are removed once you've moved on.
 [/list]
 
@@ -65,7 +66,9 @@ Install with [b]Mod Organizer 2[/b] or [b]Vortex[/b] (FOMOD installer) and enabl
 set RWD_WeightAmbush to 35   (also RWD_WeightMerchant, RWD_WeightDeserters, RWD_WeightCourier; 0 turns one off)
 set RWD_LevelMod to 1        (0 easy ... 3 very hard)
 set RWD_Enabled to 0         (pause)
-set RWD_ForceNext to 1       (debug: 1 ambush, 2 merchant, 3 deserters, 4 courier)[/code]
+set RWD_ForceNext to 1       (debug: 1 ambush, 2 merchant, 3 deserters, 4 courier)
+set RWD_Debug to 1           (debug: log every check and why it was skipped, Papyrus log lines with RWD_)[/code]
+You'll see "Roadwarden active" when a game loads; that means the mod is running.
 The full list is in the README on GitHub.
 
 [size=4][b]Uninstalling[/b][/size]

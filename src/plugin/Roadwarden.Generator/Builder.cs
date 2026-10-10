@@ -33,13 +33,13 @@ internal sealed class Builder
         // (name, default) in script property order; every one is a plain global you can `set` in the console.
         var settings = new (string Name, float Value)[]
         {
-            ("RWD_Enabled", 1), ("RWD_CheckSeconds", 60), ("RWD_ChancePct", 10), ("RWD_CooldownHours", 8),
+            ("RWD_Enabled", 1), ("RWD_CheckSeconds", 45), ("RWD_ChancePct", 15), ("RWD_CooldownHours", 4),
             ("RWD_MinLevel", 3), ("RWD_QuietSeconds", 120),
             ("RWD_SpawnMinDist", 1500), ("RWD_SpawnMaxDist", 3500), ("RWD_CallMinDist", 700), ("RWD_CallMaxDist", 1800),
             ("RWD_CleanupDist", 6000), ("RWD_ExpireHours", 4), ("RWD_TalkDistance", 500),
             ("RWD_WeightAmbush", 35), ("RWD_WeightMerchant", 25), ("RWD_WeightDeserters", 20), ("RWD_WeightCourier", 20),
             ("RWD_MaxHostiles", 4), ("RWD_LevelMod", 1), ("RWD_RewardBase", 50), ("RWD_TollBase", 50),
-            ("RWD_IntimidateSpeech", 50), ("RWD_PursuitPct", 40), ("RWD_Notify", 1), ("RWD_ForceNext", 0), ("RWD_EncounterCount", 0),
+            ("RWD_IntimidateSpeech", 50), ("RWD_PursuitPct", 40), ("RWD_Notify", 1), ("RWD_ForceNext", 0), ("RWD_EncounterCount", 0), ("RWD_Debug", 0),
         };
         var globals = settings.Select(s => (s.Name, Key: Global(s.Name, s.Value))).ToList();
 
@@ -148,7 +148,7 @@ internal sealed class Builder
         props.Add(Vmad.Obj("RWD_HealingPotions", potions.FormKey));
         props.Add(Vmad.Obj("RWD_HealingSpells", spells.FormKey));
         props.Add(Vmad.ObjList("AvoidLocationTypes", LocTypeCity, LocTypeTown, LocTypeSettlement, LocTypeDwelling,
-            LocTypeHabitation, LocTypePlayerHouse, LocTypeBanditCamp, LocTypeDungeon, LocTypeMilitaryFort));
+            LocTypePlayerHouse)); // 0.1.1: Habitation, Dungeon, BanditCamp, MilitaryFort dropped (their exterior areas cover much of the road network; interiors are excluded anyway)
         props.Add(Vmad.Obj("MQ101", MQ101));
         props.AddRange(msgs.Select(m => Vmad.Obj(m.Item1, m.Item2)));
 

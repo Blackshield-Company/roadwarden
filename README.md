@@ -2,7 +2,7 @@
 
 The roads of Skyrim get a little less empty. Roadwarden is a small Skyrim Special Edition mod that adds four rare, level-scaled road encounters: a highwaymen ambush, a merchant in trouble, deserters demanding a toll, and a wounded courier. All four are script-driven and use no world edits.
 
-**Status: v0.1.0, early beta.** It passes every automated check in the build (Papyrus compile, plugin validation, byte-exact round trip, SEQ check, FOMOD schema, cross-mod compatibility check), but nobody has playtested it in game yet. Expect rough edges and please report what you find. See [docs/TESTING.md](docs/TESTING.md).
+**Status: v0.1.1, early beta.** It passes every automated check in the build (Papyrus compile, plugin validation, byte-exact round trip, SEQ check, FOMOD schema, cross-mod compatibility check), but nobody has playtested it in game yet. Expect rough edges and please report what you find. See [docs/TESTING.md](docs/TESTING.md).
 
 - Game: Skyrim Special Edition / Anniversary Edition 1.6.x (1.5.97 also works). Runs on Windows, and on Linux through Proton.
 - Requirements: just the base game. No SKSE, SkyUI, DLC or Creation Club content.
@@ -24,7 +24,7 @@ How many attackers depends on your level: 2 below level 12, 3 from 12, and 4 fro
 
 - **Where:** on the stretch of road you **just traveled**. While you travel outdoors, the mod quietly drops a marker about every 400 units behind you and keeps the last eight. Encounters spawn at one of those markers. Ambushes and merchants start 1500 to 3500 units behind you. Deserters and couriers call out and wait 700 to 1800 units behind you. Every marker is a spot you walked through, so it's reachable ground, out of your line of sight, and not inside a rock.
 - **Never** in interiors, cities, towns, settlements, homes, inns, player houses, bandit camps, dungeons or forts. Never during the Helgen opening or while you're in combat, sitting, or have your controls locked by a scene.
-- **Rare:** one check a minute while you travel, with a 10% chance per check. There are at least 8 game hours between encounters, and no encounter for 2 minutes after any fight. That works out to roughly one encounter per half hour of travel.
+- **Rare:** one check every 45 seconds while you travel (on foot or on horseback), with a 15% chance per check. There are at least 4 game hours between encounters, and no encounter for 2 minutes after any fight. Fast travel and carriages never trigger encounters.
 - **Cleanup:** once you're more than 6000 units away (or 4 game hours have passed and you're out of sight), living encounter actors are removed and bodies are flagged so they disappear when their cell unloads.
 
 ### With Contract Hunter
@@ -65,6 +65,7 @@ set RWD_TalkDistance to 500
 set RWD_CleanupDist to 6000
 set RWD_ExpireHours to 4
 set RWD_ForceNext to 1          ; debug: 1 ambush, 2 merchant, 3 deserters, 4 courier on the next tick
+set RWD_Debug to 1              ; debug: log every check and the reason it was skipped (Papyrus log, RWD_)
 ```
 
 `RWD_EncounterCount` counts the encounters you've had.

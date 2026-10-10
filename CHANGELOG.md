@@ -2,6 +2,22 @@
 
 All notable changes to this project are documented here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.1.1] - 2026-10-10
+
+Still early beta and still not playtested in game; this release targets reports of "installed, never saw an event".
+
+### Fixed
+- Riding a horse no longer blocks encounters. The sit check now ignores being mounted (`IsOnMount`), so mounted travel counts.
+- Encounters were filtered out of large stretches of road. Locations tagged Habitation, Dungeon, Bandit Camp or Military Fort are no longer excluded (their outdoor areas cover much of the road network); interiors are still always excluded, as are cities, towns, settlements, dwellings and player houses.
+
+### Changed
+- More frequent: one check every 45 seconds (was 60) with a 15% chance (was 10%), and 4 game hours between encounters (was 8). If an existing save still shows the old values (`show RWD_ChancePct`), set `RWD_CheckSeconds 45`, `RWD_ChancePct 15`, `RWD_CooldownHours 4` to match.
+- Description: spawn distance is about 20 to 50 m (10 to 25 m for deserters and the courier); fast travel and carriages never trigger encounters.
+
+### Added
+- "Roadwarden active" notification and a Papyrus log line when the controller starts and on every save load, with the current settings.
+- `RWD_Debug` (default 0): set to 1 to log every check and why it was skipped (combat, sitting, location, controls, Helgen, level, quiet period, cooldown, failed roll, no marker in range).
+
 ## [0.1.0] - 2026-10-06
 
 Early beta. First public release. It passes every automated check in the build (Papyrus compile, plugin validation, round trip, SEQ check, FOMOD schema, cross-mod compatibility check) but has not been playtested in game yet. Please report problems on the Nexus page or on GitHub.

@@ -40,6 +40,8 @@ GlobalVariable Property RWD_PursuitPct Auto
 GlobalVariable Property RWD_Notify Auto
 GlobalVariable Property RWD_ForceNext Auto
 GlobalVariable Property RWD_EncounterCount Auto
+GlobalVariable Property RWD_Debug Auto
+{1: log every check and why it was rejected to the Papyrus log (prefix [Roadwarden] RWD_).}
 
 ; ---------------------------------------------------------------------------
 ; Records
@@ -56,7 +58,7 @@ MiscObject Property Gold001 Auto
 FormList Property RWD_HealingPotions Auto
 FormList Property RWD_HealingSpells Auto
 Keyword[] Property AvoidLocationTypes Auto
-{No encounters (and no markers) inside these: cities, towns, settlements, homes, camps, dungeons, forts.}
+{No encounters (and no markers) inside these: cities, towns, settlements, homes, player houses. Interiors (dungeons, inns, forts inside) are always excluded.}
 Quest Property MQ101 Auto
 
 Message Property RWD_MsgAmbush Auto
@@ -105,17 +107,45 @@ Float encStart = 0.0
 Float nextAllowed = 0.0
 Float lastCombat = -100000.0
 Float lastCheck = 0.0
+String rejectReason = ""
 
 Event OnInit()
 	crumbs = new ObjectReference[8]
 	hostiles = new Actor[6]
+	Announce("started")
 	RegisterForSingleUpdate(15.0)
 EndEvent
+
+; Startup/load heartbeat so players (and bug reports) can tell the controller is running.
+Function Announce(String asWhy)
+	Debug.Trace("[Roadwarden] RWD_ controller " + asWhy + " (v0.1.1): enabled=" + RWD_Enabled.GetValueInt() + " chance=" + RWD_ChancePct.GetValueInt() + "% every " + RWD_CheckSeconds.GetValueInt() + "s, cooldown " + RWD_CooldownHours.GetValue() + "h, encounters so far " + RWD_EncounterCount.GetValueInt())
+	If RWD_Notify.GetValueInt() != 0
+		Debug.Notification("Roadwarden active")
+	EndIf
+EndFunction
+
+Function DebugLog(String asText)
+	If RWD_Debug && RWD_Debug.GetValueInt() != 0
+		Debug.Trace("[Roadwarden] RWD_ " + asText)
+	EndIf
+EndFunction
+
+Bool Function Reject(String asReason)
+	rejectReason = asReason
+	Return False
+EndFunction
 
 ; The real-time clock restarts with the game, so reset everything measured in it.
 Function GameLoaded()
 	lastCombat = -100000.0
 	lastCheck = Utility.GetCurrentRealTime()
+	If !crumbs
+		crumbs = new ObjectReference[8]
+	EndIf
+	If !hostiles
+		hostiles = new Actor[6]
+	EndIf
+	Announce("loaded")
 	RegisterForSingleUpdate(IDLE_TICK)
 EndFunction
 
@@ -193,26 +223,36 @@ Function DropCrumb(Actor player)
 EndFunction
 
 Bool Function CanStart(Actor player, Float now, Bool abForced)
-	If player.IsInCombat() || player.GetSitState() != 0 || !IsRoadside(player)
-		Return False
+	If player.IsInCombat()
+		Return Reject("in combat")
+	EndIf
+	; Riding counts as travel; only real sitting (chairs, benches, carriages) blocks.
+	If player.GetSitState() != 0 && !player.IsOnMount()
+		Return Reject("sitting")
+	EndIf
+	If !IsRoadside(player)
+		Return Reject("not roadside (interior or excluded location)")
 	EndIf
 	If !Game.IsMovementControlsEnabled() || !Game.IsFightingControlsEnabled()
-		Return False
+		Return Reject("controls disabled")
 	EndIf
 	If MQ101 && MQ101.IsRunning() && !MQ101.IsCompleted()
-		Return False
+		Return Reject("Helgen (MQ101) running")
 	EndIf
 	If abForced
 		Return True
 	EndIf
 	If player.GetLevel() < RWD_MinLevel.GetValueInt()
-		Return False
+		Return Reject("player level below RWD_MinLevel")
 	EndIf
 	; Leave room after any fight (Contract Hunter's avengers, dragons, anything).
 	If now - lastCombat < RWD_QuietSeconds.GetValue()
-		Return False
+		Return Reject("quiet period after combat")
 	EndIf
-	Return Utility.GetCurrentGameTime() >= nextAllowed
+	If Utility.GetCurrentGameTime() < nextAllowed
+		Return Reject("cooldown")
+	EndIf
+	Return True
 EndFunction
 
 ; Farthest marker within [afMin, afMax] that is in a loaded cell of the player's worldspace.
@@ -267,9 +307,11 @@ EndFunction
 Function TryStart(Actor player, Float now)
 	Int forced = RWD_ForceNext.GetValueInt()
 	If !CanStart(player, now, forced > 0)
+		DebugLog("check rejected: " + rejectReason)
 		Return
 	EndIf
 	If forced <= 0 && Utility.RandomInt(1, 100) > RWD_ChancePct.GetValueInt()
+		DebugLog("check rejected: roll failed (" + RWD_ChancePct.GetValueInt() + "%)")
 		Return
 	EndIf
 	Int kind = forced
@@ -287,6 +329,7 @@ Function TryStart(Actor player, Float now)
 		spot = PickSpot(player, RWD_SpawnMinDist.GetValue(), RWD_SpawnMaxDist.GetValue())
 	EndIf
 	If !spot
+		DebugLog("check rejected: no marker behind you in range yet (keep moving)")
 		Return ; a forced encounter stays queued until there is a spot
 	EndIf
 	RWD_ForceNext.SetValueInt(0)

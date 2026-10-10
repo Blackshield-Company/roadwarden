@@ -4,7 +4,7 @@ Game: Skyrim Special Edition
 
 Mod name: Roadwarden
 
-Version: 0.1.0 (early beta)
+Version: 0.1.1 (early beta)
 
 Category: Gameplay
 
@@ -12,9 +12,9 @@ Short summary (231 chars):
 Rare, level-scaled road encounters: highwaymen ambushes, merchants under attack, deserters demanding a toll, wounded couriers. They spawn on the road you just traveled, never in towns or combat. Base game, ESL, no SKSE. Early beta.
 
 Main file:
-- File: Roadwarden-0.1.0.zip (FOMOD installer)
+- File: Roadwarden-0.1.1.zip (FOMOD installer)
 - File name: Roadwarden
-- File version: 0.1.0
+- File version: 0.1.1
 - File category: Main Files
 - File description: Early beta. FOMOD installer with Roadwarden.esp (ESL-flagged), compiled scripts, SEQ file, and optional Papyrus sources. Requires only Skyrim Special Edition / Anniversary Edition (1.5.97 or 1.6.x).
 
