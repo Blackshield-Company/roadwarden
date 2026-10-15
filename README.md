@@ -1,3 +1,5 @@
+![roadwarden](.github/preview.png)
+
 # Roadwarden
 
 The roads of Skyrim get a little less empty. Roadwarden is a small Skyrim Special Edition mod that adds four rare, level-scaled road encounters: a highwaymen ambush, a merchant in trouble, deserters demanding a toll, and a wounded courier. All four are script-driven and use no world edits.
