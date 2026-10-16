@@ -101,6 +101,13 @@ docs/                              design notes, testing checklist, Nexus page
 - Built with [Mutagen](https://github.com/Mutagen-Modding/Mutagen) and [russo-2025/papyrus-compiler](https://github.com/russo-2025/papyrus-compiler).
 - All actors are based on vanilla Skyrim.esm templates. The mod ships no Bethesda assets.
 
+## Support
+
+Donations are optional. Nothing in the mod is gated on them.
+
+- GitHub Sponsors: https://github.com/sponsors/synthalorian
+- Ko-fi: https://ko-fi.com/synthalorian
+
 ## License
 
 MIT (code and text in this repository). See [LICENSE](LICENSE).
