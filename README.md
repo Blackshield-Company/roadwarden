@@ -11,6 +11,14 @@ The roads of Skyrim get a little less empty. Roadwarden is a small Skyrim Specia
 - Plugin: `Roadwarden.esp`, ESL-flagged, with Skyrim.esm as its only master. **It edits no vanilla records and places nothing in the world.** Encounters are spawned by script and cleaned up after you move on.
 - Works with the rest of the series ([Blackshield Company](https://github.com/synthalorian/blackshield-company), [Bounties of Oblivion](https://github.com/synthalorian/bounties-of-oblivion), [Contract Hunter](https://github.com/synthalorian/contract-hunter), [Steel Oath](https://github.com/synthalorian/steel-oath), [Ember Smithing](https://github.com/synthalorian/ember-smithing), [The Gray-Mane Debt](https://github.com/synthalorian/the-gray-mane-debt), [Blackshield Codex](https://github.com/synthalorian/blackshield-codex), [War Banners](https://github.com/synthalorian/war-banners)). It has its own prefix (`RWD_`), records, globals and files, and it is checked by loading all the plugins together (see [tools/modkit](tools/modkit/README.md)).
 
+## Install
+
+1. Download the mod zip from [Releases](https://github.com/synthalorian/roadwarden/releases), or build it from source as described below. GitHub's source-code archives are not installable mod packages.
+2. In Mod Organizer 2 or Vortex, install the zip through its FOMOD installer and enable `Roadwarden.esp`. The Papyrus source files option is only for development; players can skip it.
+3. For a manual install, copy the **contents** of `00 Core/` into Skyrim Special Edition's `Data/` directory, preserving `Scripts/` and `SEQ/`, and enable `Roadwarden.esp` in your plugin list. Do not copy the enclosing `00 Core` folder itself.
+
+This remains an unplaytested early beta; see [docs/TESTING.md](docs/TESTING.md) before testing in game.
+
 ## The encounters
 
 | Encounter | What happens | Outcome |
