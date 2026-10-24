@@ -83,7 +83,7 @@ Set [code]RWD_Enabled to 0[/code] and walk away from any running encounter so it
 [/list]
 
 [size=4][b]Source[/b][/size]
-Open source (MIT): [url=https://github.com/synthalorian/roadwarden]github.com/synthalorian/roadwarden[/url]
+Open source (MIT): [url=https://github.com/Blackshield-Company/roadwarden]github.com/Blackshield-Company/roadwarden[/url]
 
 [size=4][b]Credits[/b][/size]
 [list]
