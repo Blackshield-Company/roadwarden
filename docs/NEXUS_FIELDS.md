@@ -35,4 +35,4 @@ Permissions (suggestion; code is MIT on GitHub):
 Tags (pick the closest matches in the tag picker):
 Gameplay, Combat, Encounters, Immersion, Bandits, Lore-Friendly, ESL, No SKSE, Scripted
 
-Source: https://github.com/synthalorian/roadwarden
+Source: https://github.com/Blackshield-Company/roadwarden
