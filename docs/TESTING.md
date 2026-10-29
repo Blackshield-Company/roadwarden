@@ -1,4 +1,4 @@
-# Testing checklist (v0.1.1, early beta)
+# Testing checklist (v0.1.2, early beta)
 
 Automated (every `./build.sh`):
 
@@ -31,6 +31,7 @@ Useful: `help "Highwayman" 4`, `help "Deserter" 4`, `help "Traveling Merchant" 4
    - [ ] Helping heals the courier and shows the thanks box with gold. About 40% of the time: "The courier's attackers have caught up!" and highwaymen attack.
 5. **Rules**
    - [ ] Nothing happens in towns, cities, settlements, homes or interiors, during combat, or within 2 minutes after a fight (normal mode, `RWD_ForceNext 0`).
+   - [ ] With `RWD_Debug 1`, `set RWD_ForceNext to 1` on the College of Winterhold grounds (by the statue), at Whiterun stables and in Raven Rock: no encounter, and the log says `not roadside (location list: ...)` or `(near town: ...)`.
    - [ ] After an encounter, walking about 90 m away removes the leftover actors (check with `prid <id>` that they are gone).
    - [ ] Save and reload during an encounter: it keeps running and cleans up afterwards.
    - [ ] `set RWD_Enabled to 0`: no new encounters.
