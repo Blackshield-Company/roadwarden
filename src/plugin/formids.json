@@ -1,4 +1,5 @@
 {
+  "RWD_AvoidLocations": "000836",
   "RWD_CallMaxDist": "00080A",
   "RWD_CallMinDist": "000809",
   "RWD_ChancePct": "000803",
@@ -48,6 +49,7 @@
   "RWD_SpawnMinDist": "000807",
   "RWD_TalkDistance": "00080D",
   "RWD_TollBase": "000815",
+  "RWD_TownRadius": "000835",
   "RWD_WeightAmbush": "00080E",
   "RWD_WeightCourier": "000811",
   "RWD_WeightDeserters": "000810",

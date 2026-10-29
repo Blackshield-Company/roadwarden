@@ -42,6 +42,8 @@ GlobalVariable Property RWD_ForceNext Auto
 GlobalVariable Property RWD_EncounterCount Auto
 GlobalVariable Property RWD_Debug Auto
 {1: log every check and why it was rejected to the Papyrus log (prefix [Roadwarden] RWD_).}
+GlobalVariable Property RWD_TownRadius Auto
+{No encounters (and no markers) within this many units of a TownMarkers reference. 0 turns the check off.}
 
 ; ---------------------------------------------------------------------------
 ; Records
@@ -59,6 +61,10 @@ FormList Property RWD_HealingPotions Auto
 FormList Property RWD_HealingSpells Auto
 Keyword[] Property AvoidLocationTypes Auto
 {No encounters (and no markers) inside these: cities, towns, settlements, homes, player houses. Interiors (dungeons, inns, forts inside) are always excluded.}
+FormList Property RWD_AvoidLocations Auto
+{Populated places whose location type is not reliable (College of Winterhold, towns, stables, ...). Everything inside them is excluded too.}
+ObjectReference[] Property TownMarkers Auto
+{Map markers just outside the walled cities and the College. Nothing within RWD_TownRadius of them.}
 Quest Property MQ101 Auto
 
 Message Property RWD_MsgAmbush Auto
@@ -108,17 +114,22 @@ Float nextAllowed = 0.0
 Float lastCombat = -100000.0
 Float lastCheck = 0.0
 String rejectReason = ""
+Location[] dlcAvoid ; RWD_AvoidLocations for Dawnguard/Dragonborn, looked up at runtime so they are not masters
+Location lastHere
+String lastHereWhy = ""
+Bool hereChecked = False
 
 Event OnInit()
 	crumbs = new ObjectReference[8]
 	hostiles = new Actor[6]
+	CacheDlcLocations()
 	Announce("started")
 	RegisterForSingleUpdate(15.0)
 EndEvent
 
 ; Startup/load heartbeat so players (and bug reports) can tell the controller is running.
 Function Announce(String asWhy)
-	Debug.Trace("[Roadwarden] RWD_ controller " + asWhy + " (v0.1.1): enabled=" + RWD_Enabled.GetValueInt() + " chance=" + RWD_ChancePct.GetValueInt() + "% every " + RWD_CheckSeconds.GetValueInt() + "s, cooldown " + RWD_CooldownHours.GetValue() + "h, encounters so far " + RWD_EncounterCount.GetValueInt())
+	Debug.Trace("[Roadwarden] RWD_ controller " + asWhy + " (v0.1.2): enabled=" + RWD_Enabled.GetValueInt() + " chance=" + RWD_ChancePct.GetValueInt() + "% every " + RWD_CheckSeconds.GetValueInt() + "s, cooldown " + RWD_CooldownHours.GetValue() + "h, encounters so far " + RWD_EncounterCount.GetValueInt())
 	If RWD_Notify.GetValueInt() != 0
 		Debug.Notification("Roadwarden active")
 	EndIf
@@ -145,6 +156,7 @@ Function GameLoaded()
 	If !hostiles
 		hostiles = new Actor[6]
 	EndIf
+	CacheDlcLocations()
 	Announce("loaded")
 	RegisterForSingleUpdate(IDLE_TICK)
 EndFunction
@@ -183,20 +195,111 @@ EndEvent
 ; ---------------------------------------------------------------------------
 
 Bool Function IsRoadside(Actor player)
+	Return WhyNotRoadside(player) == ""
+EndFunction
+
+; "" when the player stands somewhere an encounter may happen, otherwise the rule that says no.
+String Function WhyNotRoadside(Actor player)
 	If player.IsInInterior() || !player.GetWorldSpace()
-		Return False
+		Return "interior"
 	EndIf
+	; The location rarely changes, so its verdict is cached until it does.
 	Location here = player.GetCurrentLocation()
-	If here
-		Int i = 0
-		While i < AvoidLocationTypes.Length
-			If here.HasKeyword(AvoidLocationTypes[i])
-				Return False
+	If !hereChecked || here != lastHere
+		lastHere = here
+		lastHereWhy = LocationRule(here)
+		hereChecked = True
+	EndIf
+	If lastHereWhy != ""
+		Return lastHereWhy
+	EndIf
+	Return NearTownRule(player)
+EndFunction
+
+; Same rules for a marker: it may have been dropped before an exclusion existed (older
+; saves) or before the player crossed into a place. Reuses the player's cached verdict
+; when the marker is in the same location, which is the usual case.
+String Function WhyNotSpot(ObjectReference akSpot)
+	Location loc = akSpot.GetCurrentLocation()
+	String why
+	If hereChecked && loc == lastHere
+		why = lastHereWhy
+	Else
+		why = LocationRule(loc)
+	EndIf
+	If why != ""
+		Return why
+	EndIf
+	Return NearTownRule(akSpot)
+EndFunction
+
+String Function LocationRule(Location here)
+	If !here
+		Return ""
+	EndIf
+	Int i = 0
+	While i < AvoidLocationTypes.Length
+		If here.HasKeyword(AvoidLocationTypes[i])
+			Return "keyword " + AvoidLocationTypes[i] + " on " + here
+		EndIf
+		i += 1
+	EndWhile
+	If RWD_AvoidLocations
+		Int n = RWD_AvoidLocations.GetSize()
+		i = 0
+		While i < n
+			If IsInside(here, RWD_AvoidLocations.GetAt(i) as Location)
+				Return "location list: " + here + " in " + RWD_AvoidLocations.GetAt(i)
 			EndIf
 			i += 1
 		EndWhile
 	EndIf
-	Return True
+	If dlcAvoid
+		i = 0
+		While i < dlcAvoid.Length
+			If IsInside(here, dlcAvoid[i])
+				Return "location list: " + here + " in " + dlcAvoid[i]
+			EndIf
+			i += 1
+		EndWhile
+	EndIf
+	Return ""
+EndFunction
+
+; akPlace.IsChild(akHere): is akHere somewhere under akPlace (any depth)?
+Bool Function IsInside(Location akHere, Location akPlace)
+	Return akPlace && (akHere == akPlace || akPlace.IsChild(akHere))
+EndFunction
+
+String Function NearTownRule(ObjectReference akRef)
+	If !RWD_TownRadius || !TownMarkers
+		Return ""
+	EndIf
+	Float radius = RWD_TownRadius.GetValue()
+	If radius <= 0.0
+		Return ""
+	EndIf
+	WorldSpace ws = akRef.GetWorldSpace()
+	Int i = 0
+	While i < TownMarkers.Length
+		ObjectReference m = TownMarkers[i]
+		If m && m.GetWorldSpace() == ws && m.GetDistance(akRef) < radius
+			Return "near town: " + m + " within " + (radius as Int) + " units"
+		EndIf
+		i += 1
+	EndWhile
+	Return ""
+EndFunction
+
+; Base-game DLC records by FormID (no SKSE needed); None if a file is missing.
+Function CacheDlcLocations()
+	dlcAvoid = new Location[5]
+	dlcAvoid[0] = Game.GetFormFromFile(0x004C1F, "Dawnguard.esm") as Location ; DLC1HunterHQLocation (Fort Dawnguard)
+	dlcAvoid[1] = Game.GetFormFromFile(0x0143B9, "Dragonborn.esm") as Location ; DLC2RavenRockLocation
+	dlcAvoid[2] = Game.GetFormFromFile(0x0143BA, "Dragonborn.esm") as Location ; DLC2ThirskMeadHallLocation
+	dlcAvoid[3] = Game.GetFormFromFile(0x0143BB, "Dragonborn.esm") as Location ; DLC2SkaalVillageLocation
+	dlcAvoid[4] = Game.GetFormFromFile(0x0143BC, "Dragonborn.esm") as Location ; DLC2TelMithrynLocation
+	hereChecked = False
 EndFunction
 
 Function DropCrumb(Actor player)
@@ -230,8 +333,9 @@ Bool Function CanStart(Actor player, Float now, Bool abForced)
 	If player.GetSitState() != 0 && !player.IsOnMount()
 		Return Reject("sitting")
 	EndIf
-	If !IsRoadside(player)
-		Return Reject("not roadside (interior or excluded location)")
+	String notRoadside = WhyNotRoadside(player)
+	If notRoadside != ""
+		Return Reject("not roadside (" + notRoadside + ")")
 	EndIf
 	If !Game.IsMovementControlsEnabled() || !Game.IsFightingControlsEnabled()
 		Return Reject("controls disabled")
@@ -255,7 +359,8 @@ Bool Function CanStart(Actor player, Float now, Bool abForced)
 	Return True
 EndFunction
 
-; Farthest marker within [afMin, afMax] that is in a loaded cell of the player's worldspace.
+; Farthest marker within [afMin, afMax] that is in a loaded cell of the player's worldspace
+; and passes the roadside rules itself (only checked for markers that would become the best).
 ObjectReference Function PickSpot(Actor player, Float afMin, Float afMax)
 	ObjectReference best = None
 	Float bestDist = 0.0
@@ -267,8 +372,13 @@ ObjectReference Function PickSpot(Actor player, Float afMin, Float afMax)
 			If d >= afMin && d <= afMax && d > bestDist
 				Cell crumbCell = c.GetParentCell()
 				If crumbCell && crumbCell.IsAttached()
-					best = c
-					bestDist = d
+					String why = WhyNotSpot(c)
+					If why == ""
+						best = c
+						bestDist = d
+					Else
+						DebugLog("marker skipped: " + why)
+					EndIf
 				EndIf
 			EndIf
 		EndIf

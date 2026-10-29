@@ -40,6 +40,7 @@ internal sealed class Builder
             ("RWD_WeightAmbush", 35), ("RWD_WeightMerchant", 25), ("RWD_WeightDeserters", 20), ("RWD_WeightCourier", 20),
             ("RWD_MaxHostiles", 4), ("RWD_LevelMod", 1), ("RWD_RewardBase", 50), ("RWD_TollBase", 50),
             ("RWD_IntimidateSpeech", 50), ("RWD_PursuitPct", 40), ("RWD_Notify", 1), ("RWD_ForceNext", 0), ("RWD_EncounterCount", 0), ("RWD_Debug", 0),
+            ("RWD_TownRadius", 2500),
         };
         var globals = settings.Select(s => (s.Name, Key: Global(s.Name, s.Value))).ToList();
 
@@ -98,6 +99,9 @@ internal sealed class Builder
         foreach (var p in HealingPotions) potions.Items.Add(L<ISkyrimMajorRecordGetter>(p));
         var spells = Add(new FormList(Id("RWD_HealingSpells"), R) { EditorID = "RWD_HealingSpells" });
         foreach (var s in HealingSpells) spells.Items.Add(L<ISkyrimMajorRecordGetter>(s));
+        // 0.1.2: Skyrim.esm only; the Dawnguard/Dragonborn places are looked up by the script at runtime (no new masters).
+        var avoid = Add(new FormList(Id("RWD_AvoidLocations"), R) { EditorID = "RWD_AvoidLocations" });
+        foreach (var l in AvoidLocations) avoid.Items.Add(L<ISkyrimMajorRecordGetter>(l));
 
         // --- Messages --------------------------------------------------------------------------------
         var msgs = new List<(string, FormKey)>
@@ -149,6 +153,8 @@ internal sealed class Builder
         props.Add(Vmad.Obj("RWD_HealingSpells", spells.FormKey));
         props.Add(Vmad.ObjList("AvoidLocationTypes", LocTypeCity, LocTypeTown, LocTypeSettlement, LocTypeDwelling,
             LocTypePlayerHouse)); // 0.1.1: Habitation, Dungeon, BanditCamp, MilitaryFort dropped (their exterior areas cover much of the road network; interiors are excluded anyway)
+        props.Add(Vmad.Obj("RWD_AvoidLocations", avoid.FormKey));
+        props.Add(Vmad.ObjList("TownMarkers", TownMarkers));
         props.Add(Vmad.Obj("MQ101", MQ101));
         props.AddRange(msgs.Select(m => Vmad.Obj(m.Item1, m.Item2)));
 

@@ -1,6 +1,6 @@
 # Design notes (v0.1, early beta)
 
-## Records (52, FormIDs 0x800-0x833, ESL-flagged, Skyrim.esm only, no overrides)
+## Records (55, FormIDs 0x800-0x836, ESL-flagged, Skyrim.esm only, no overrides)
 
 | EditorID | Type | Purpose |
 |---|---|---|
@@ -12,8 +12,9 @@
 | `RWD_DeserterFaction` | FACT | Hidden, no relations. Only there so the deserters aren't factionless. |
 | `RWD_HealingPotions` | FLST | `RestoreHealth01`-`06`. |
 | `RWD_HealingSpells` | FLST | Healing, Fast Healing, Close Wounds, Grand Healing, Healing Hands, Heal Other. |
+| `RWD_AvoidLocations` | FLST | Populated Skyrim.esm locations not reliably tagged City/Town/Settlement/Dwelling (College of Winterhold, towns, stables, ...); every location under them counts too. The Dawnguard/Dragonborn ones are looked up by FormID at runtime. |
 | `RWD_Msg*` | MESG (15) | Hints (notifications) and choice boxes. |
-| `RWD_*` settings | GLOB (26) | See the README. |
+| `RWD_*` settings | GLOB (28) | See the README. |
 
 Wolves are the vanilla `LvlWolf`. The markers are the vanilla `XMarker` static, placed by script.
 
@@ -21,8 +22,8 @@ Wolves are the vanilla `LvlWolf`. The markers are the vanilla `XMarker` static, 
 
 `OnUpdate` runs every 5 real seconds while nothing is happening, and every 2 seconds while an encounter is running. It uses no `RegisterForUpdate` loop, only `RegisterForSingleUpdate`, so the script can't stack.
 
-1. **Breadcrumbs.** If the player is outdoors and not in an avoided location type, and has moved 400+ units since the last marker, the oldest of eight `XMarker` references is moved to the player. The references are created once with `PlaceAtMe(XMarker, 1, abForcePersist = True)`.
-2. **Check.** At most every `RWD_CheckSeconds`, if the player can take an encounter (see below), roll `RWD_ChancePct`, pick a kind by weight, and pick a spot. The spot is the farthest marker in the right distance band that is in the player's worldspace and in an attached (loaded) cell. No spot means no encounter. A forced one (`RWD_ForceNext`) stays queued until a spot turns up.
+1. **Breadcrumbs.** If the player is outdoors, not in an avoided location (type keyword, `RWD_AvoidLocations` or anything under them) and not within `RWD_TownRadius` of a town map marker, and has moved 400+ units since the last marker, the oldest of eight `XMarker` references is moved to the player. The references are created once with `PlaceAtMe(XMarker, 1, abForcePersist = True)`.
+2. **Check.** At most every `RWD_CheckSeconds`, if the player can take an encounter (see below), roll `RWD_ChancePct`, pick a kind by weight, and pick a spot. The spot is the farthest marker in the right distance band that is in the player's worldspace, in an attached (loaded) cell, and itself passes the same location and town-radius rules (so markers from an older save or dropped just before an exclusion applied are skipped). No spot means no encounter. A forced one (`RWD_ForceNext`) stays queued until a spot turns up.
 3. **Can start** when the player is not in combat, not sitting, outdoors, not in an avoided location, controls enabled, MQ101 not running, level >= `RWD_MinLevel`, at least `RWD_QuietSeconds` since the player was last seen in combat, and the game-time cooldown is over. A forced encounter skips the last three conditions.
 4. **Spawn** with `PlaceActorAtMe(base, RWD_LevelMod)` at the marker. Ambush: `StartCombat(player)`. Merchant: attackers `StartCombat(merchant)`. Deserters and courier: nothing until the player is within `RWD_TalkDistance`.
 5. **Tick** while running:

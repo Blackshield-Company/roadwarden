@@ -2,6 +2,20 @@
 
 All notable changes to this project are documented here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.1.2] - 2026-10-29
+
+Still early beta and still not playtested in game.
+
+### Fixed
+- An ambush could fire on the College of Winterhold grounds (by the statue) and in other populated places whose location is not tagged City, Town, Settlement or Dwelling. These are now excluded explicitly, together with every location inside them.
+- Markers dropped before the update (or before you walked into an excluded place) are checked again when a spot is picked, so an old marker in a town or by the College can no longer be used.
+
+### Added
+- `RWD_AvoidLocations` form list (Skyrim.esm): College of Winterhold, Winterhold, Dawnstar, Morthal, Falkreath, Riverwood, Solitude (and the Solitude docks, sawmill, Katla's Farm and stables), Windhelm, Whiterun, Markarth and Riften (and their stables), Sky Haven Temple, High Hrothgar, Ivarstead, Rorikstead, Dragon Bridge, Karthwasten, Shor's Stone, Kynesgrove and Old Hroldan.
+- Fort Dawnguard (Dawnguard.esm) and Raven Rock, Thirsk Mead Hall, Skaal Village and Tel Mithryn (Dragonborn.esm), looked up by FormID at runtime, so the plugin still has Skyrim.esm as its only master.
+- `RWD_TownRadius` (default 2500 units): no encounters this close to the map markers outside Whiterun, Solitude, Windhelm, Markarth, Riften, Winterhold and the College. `set RWD_TownRadius to 0` turns it off.
+- With `RWD_Debug 1`, a location reject now names the rule: `keyword`, `location list` or `near town`.
+
 ## [0.1.1] - 2026-10-10
 
 Still early beta and still not playtested in game; this release targets reports of "installed, never saw an event".

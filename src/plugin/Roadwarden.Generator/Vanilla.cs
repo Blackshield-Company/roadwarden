@@ -42,6 +42,52 @@ internal static class Vanilla
     public static readonly FormKey LocTypeDungeon = K(0x0130DB);
     public static readonly FormKey LocTypeMilitaryFort = K(0x0130E7);
 
+    // Populated places that are not reliably tagged City/Town/Settlement/Dwelling (RWD_AvoidLocations).
+    // A location here also covers every location under it (Location.IsChild). Never put a hold here.
+    public static readonly FormKey[] AvoidLocations =
+    {
+        K(0x076F3A), // WinterholdCollegeLocation
+        K(0x018A51), // WinterholdLocation
+        K(0x018A50), // DawnstarLocation
+        K(0x018A53), // MorthalLocation
+        K(0x018A49), // FalkreathLocation
+        K(0x013163), // RiverwoodLocation
+        K(0x018A5A), // SolitudeLocation
+        K(0x0358B9), // SolitudeDocksLocation
+        K(0x018E44), // SolitudeSawmillLocation
+        K(0x018E38), // KatlasFarmLocation
+        K(0x07046A), // SolitudeStablesLocation
+        K(0x018A57), // WindhelmLocation
+        K(0x0209F5), // WindhelmStablesLocation
+        K(0x018A56), // WhiterunLocation
+        K(0x01F87C), // WhiterunStablesLocation
+        K(0x018A59), // MarkarthLocation
+        K(0x0C6C2A), // MarkarthStablesLocation
+        K(0x018A58), // RiftenLocation
+        K(0x02264C), // RiftenStablesLocation
+        K(0x018E42), // SkyHavenTempleLocation
+        K(0x018E34), // HighHrothgarLocation
+        K(0x018A4B), // IvarsteadLocation
+        K(0x018A47), // RoriksteadLocation
+        K(0x018A46), // DragonBridgeLocation
+        K(0x018A54), // KarthwastenLocation
+        K(0x018A4C), // ShorsStoneLocation
+        K(0x018A4E), // KynesgroveLocation
+        K(0x018A55), // OldHroldanLocation
+    };
+
+    // Map markers just outside the walled cities and the College (RWD_TownRadius around each, Tamriel worldspace).
+    public static readonly FormKey[] TownMarkers =
+    {
+        K(0x0162CE), // WhiterunMapMarkerREF
+        K(0x04D0F4), // SolitudeMapmarkerRef
+        K(0x038436), // WindhelmMapMarkerRef
+        K(0x01C38A), // MarkarthMapMarkerREF
+        K(0x01C390), // RiftenMapMarkerREF
+        K(0x046BDF), // WinterholdCollegeMapMarkerRef
+        K(0x0177EF), // WinterholdMapMarker
+    };
+
     // Healing
     public static readonly FormKey[] HealingPotions =
     {

@@ -27,6 +27,7 @@ The build tooling for the Blackshield mod series, written to be reused by every 
 
 ## Changelog
 
+- **Roadwarden 0.1.2:** stub `Game.GetFormFromFile` (vanilla, not SKSE) to reach Dawnguard/Dragonborn records without making them masters.
 - **Roadwarden (mod 9):** stubs `Actor.GetActorValue`/`DamageActorValue`/`RestoreActorValue`/`GetSitState`/`GetCombatTarget`/`IsHostileToActor`, `ObjectReference.GetParentCell`, `Cell.IsAttached`, `FormList.GetSize`/`GetAt`. (Papyrus names are case-insensitive: a variable `crumbs` and a property `CRUMBS` clash, and `parent` is a reserved word.)
 
 - **War Banners (mod 8):** `Vmad.AliasList` fills a `ReferenceAlias[]` property (here: another quest's aliases). The validator checks every alias property, single or array, against the aliases of the quest it names. Stubs: `Activator`, `Math.Sin`/`Cos`, `Spell.Cast`, `ObjectReference.GetAngleZ`/`SetAngle`/`SetScale`/`AddInventoryEventFilter`/`OnItemAdded`, `ReferenceAlias.AddInventoryEventFilter`/`OnItemAdded`, `Actor.IsOnMount`, `Utility.GetCurrentRealTime`.
