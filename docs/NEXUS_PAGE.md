@@ -1,17 +1,17 @@
 # Nexus Mods page: Roadwarden
 
-Early beta: v0.1.2 passes every automated build check but nobody has playtested it in game yet. The page says this at the top. The exact upload-form values are in [NEXUS_FIELDS.md](NEXUS_FIELDS.md).
+Early beta: v0.1.3 passes every automated build check but nobody has playtested it in game yet. The page says this at the top. The exact upload-form values are in [NEXUS_FIELDS.md](NEXUS_FIELDS.md).
 
 ## Page settings
 
 - **Game:** Skyrim Special Edition
 - **Mod name:** Roadwarden
-- **Version:** 0.1.2 (early beta)
+- **Version:** 0.1.3 (early beta)
 - **Category:** Gameplay
 - **Suggested tags:** Gameplay, Combat, Encounters, Immersion, Bandits, Lore-Friendly, ESL, No SKSE, Scripted
 - **Requirements:** none.
 - **Permissions (suggested):** the source is on GitHub under MIT, so allow modification and conversions with credit, but not re-uploads of the archive itself.
-- **File to upload:** `Roadwarden-0.1.2.zip` (FOMOD) as the main file, named "Roadwarden".
+- **File to upload:** `Roadwarden-0.1.3.zip` (FOMOD) as the main file, named "Roadwarden".
 
 ## Description (paste into the BBCode editor)
 
@@ -19,7 +19,7 @@ Early beta: v0.1.2 passes every automated build check but nobody has playtested 
 [center][size=6][b]ROADWARDEN[/b][/size]
 [size=3][i]The road is never as empty as it looks.[/i][/size]
 
-[size=3][color=#e0a030][b]EARLY BETA (v0.1.2)[/b]: this version passes every automated build check but hasn't been playtested in game yet. Please report bugs in the Bugs tab or on GitHub, ideally with your Papyrus log.[/color][/size][/center]
+[size=3][color=#e0a030][b]EARLY BETA (v0.1.3)[/b]: this version passes every automated build check but hasn't been playtested in game yet. Please report bugs in the Bugs tab or on GitHub, ideally with your Papyrus log.[/color][/size][/center]
 
 [line]
 
@@ -38,7 +38,7 @@ Leveled bandit, soldier and wolf templates, plus 2 to 4 attackers depending on y
 [size=4][b]When and where[/b][/size]
 [list]
 [*]Only outdoors, on ground you just walked or rode through, about 20 to 50 m behind you (deserters and the courier call out from about 10 to 25 m).
-[*]Never in cities, towns, settlements, homes or any interior (inns, dungeons, forts inside). Never during Helgen, in combat, or within 2 minutes after a fight. Riding a horse counts as travel.
+[*]Never in cities, towns, settlements, homes, Orc strongholds (or Bilegulch Mine) or any interior (inns, dungeons, forts inside). Never during Helgen, in combat, or within 2 minutes after a fight. Riding a horse counts as travel.
 [*]Rare: one check every 45 seconds while you travel, a 15% chance, and at least 4 game hours between encounters.
 [*]Fast travel and carriages skip the road, so they never trigger encounters. You only meet people on roads you actually walk or ride.
 [*]Leftover actors are removed once you've moved on.

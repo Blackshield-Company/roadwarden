@@ -12,7 +12,7 @@
 | `RWD_DeserterFaction` | FACT | Hidden, no relations. Only there so the deserters aren't factionless. |
 | `RWD_HealingPotions` | FLST | `RestoreHealth01`-`06`. |
 | `RWD_HealingSpells` | FLST | Healing, Fast Healing, Close Wounds, Grand Healing, Healing Hands, Heal Other. |
-| `RWD_AvoidLocations` | FLST | Populated Skyrim.esm locations not reliably tagged City/Town/Settlement/Dwelling (College of Winterhold, towns, stables, ...); every location under them counts too. The Dawnguard/Dragonborn ones are looked up by FormID at runtime. |
+| `RWD_AvoidLocations` | FLST | Populated Skyrim.esm locations not reliably tagged City/Town/Settlement/Dwelling (College of Winterhold, towns, stables, the Orc strongholds and their mines, Bilegulch Mine, ...); every location under them counts too. The Dawnguard/Dragonborn ones are looked up by FormID at runtime. |
 | `RWD_Msg*` | MESG (15) | Hints (notifications) and choice boxes. |
 | `RWD_*` settings | GLOB (28) | See the README. |
 

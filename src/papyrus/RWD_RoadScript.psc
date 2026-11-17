@@ -60,9 +60,9 @@ MiscObject Property Gold001 Auto
 FormList Property RWD_HealingPotions Auto
 FormList Property RWD_HealingSpells Auto
 Keyword[] Property AvoidLocationTypes Auto
-{No encounters (and no markers) inside these: cities, towns, settlements, homes, player houses. Interiors (dungeons, inns, forts inside) are always excluded.}
+{No encounters (and no markers) inside these: cities, towns, settlements, homes, player houses, Orc strongholds. Interiors (dungeons, inns, forts inside) are always excluded.}
 FormList Property RWD_AvoidLocations Auto
-{Populated places whose location type is not reliable (College of Winterhold, towns, stables, ...). Everything inside them is excluded too.}
+{Populated places whose location type is not reliable (College of Winterhold, towns, stables, Orc strongholds and their mines, Bilegulch Mine, ...). Everything inside them is excluded too.}
 ObjectReference[] Property TownMarkers Auto
 {Map markers just outside the walled cities and the College. Nothing within RWD_TownRadius of them.}
 Quest Property MQ101 Auto
@@ -129,7 +129,7 @@ EndEvent
 
 ; Startup/load heartbeat so players (and bug reports) can tell the controller is running.
 Function Announce(String asWhy)
-	Debug.Trace("[Roadwarden] RWD_ controller " + asWhy + " (v0.1.2): enabled=" + RWD_Enabled.GetValueInt() + " chance=" + RWD_ChancePct.GetValueInt() + "% every " + RWD_CheckSeconds.GetValueInt() + "s, cooldown " + RWD_CooldownHours.GetValue() + "h, encounters so far " + RWD_EncounterCount.GetValueInt())
+	Debug.Trace("[Roadwarden] RWD_ controller " + asWhy + " (v0.1.3): enabled=" + RWD_Enabled.GetValueInt() + " chance=" + RWD_ChancePct.GetValueInt() + "% every " + RWD_CheckSeconds.GetValueInt() + "s, cooldown " + RWD_CooldownHours.GetValue() + "h, encounters so far " + RWD_EncounterCount.GetValueInt())
 	If RWD_Notify.GetValueInt() != 0
 		Debug.Notification("Roadwarden active")
 	EndIf

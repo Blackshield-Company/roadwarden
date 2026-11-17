@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.1.3] - 2026-11-17
+
+Still early beta. This release addresses a tester report (Antaresan) of a merchant encounter, with its wolves, firing at Bilegulch Mine behind the forge.
+
+### Fixed
+- Encounters could fire in Orc strongholds and at Bilegulch Mine. Every encounter now skips locations tagged Orc Stronghold, the same way it skips cities, towns, settlements, dwellings and player houses.
+- Bilegulch Mine is excluded explicitly. It is not one of the four strongholds and not Mor Khazgur's mine: it is a separate Orc bandit mine in Falkreath Hold, northwest of Falkreath, built on a cut stronghold (Makbur), with a forge and stronghold-style buildings.
+
+### Added
+- `RWD_AvoidLocations` now also lists Dushnikh Yal (and Dushnikh Mine and Burguk's Longhouse), Mor Khazgur (and Mor Khazgur Mine and Larak's Longhouse), Narzulbur (and Gloombound Mine and Mauhulakh's Longhouse), Largashbur (and its longhouse; it has no mine) and Bilegulch Mine, so they are excluded even if a location is missing the keyword or is not under its stronghold.
+
 ## [0.1.2] - 2026-10-29
 
 Still early beta and still not playtested in game.
