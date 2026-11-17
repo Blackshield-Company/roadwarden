@@ -1,6 +1,6 @@
 # Nexus Mods page: Roadwarden
 
-Early beta: v0.1.3 passes every automated build check. A tester has played the previous version (0.1.2) in game, but 0.1.3 itself has not been playtested in game yet. The page says this at the top. The exact upload-form values are in [NEXUS_FIELDS.md](NEXUS_FIELDS.md).
+Early beta: v0.1.3. A tester has played the previous version (0.1.2) in game, but 0.1.3 itself has not been playtested in game yet. The page says this at the top. The exact upload-form values are in [NEXUS_FIELDS.md](NEXUS_FIELDS.md).
 
 ## Page settings
 
@@ -19,7 +19,7 @@ Early beta: v0.1.3 passes every automated build check. A tester has played the p
 [center][size=6][b]ROADWARDEN[/b][/size]
 [size=3][i]The road is never as empty as it looks.[/i][/size]
 
-[size=3][color=#e0a030][b]EARLY BETA (v0.1.3)[/b]: this version passes every automated build check. A tester has played the previous version in game, but 0.1.3 itself hasn't been playtested in game yet. Please report bugs in the Bugs tab or on GitHub, ideally with your Papyrus log.[/color][/size][/center]
+[size=3][color=#e0a030][b]EARLY BETA (v0.1.3)[/b]: a tester has played the previous version in game, but 0.1.3 itself hasn't been playtested in game yet. Please report bugs in the Bugs tab or on GitHub, ideally with your Papyrus log.[/color][/size][/center]
 
 [line]
 

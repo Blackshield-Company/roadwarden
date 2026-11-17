@@ -4,7 +4,7 @@
 
 The roads of Skyrim get a little less empty. Roadwarden is a small Skyrim Special Edition mod that adds four rare, level-scaled road encounters: a highwaymen ambush, a merchant in trouble, deserters demanding a toll, and a wounded courier. All four are script-driven and use no world edits.
 
-**Status: v0.1.3, early beta.** It passes every automated check in the build (Papyrus compile, plugin validation, byte-exact round trip, SEQ check, FOMOD schema, cross-mod compatibility check), and a tester has played the previous version (0.1.2) in game, which led to the fixes in this release. Version 0.1.3 itself has not been playtested in game yet. Expect rough edges and please report what you find. See [docs/TESTING.md](docs/TESTING.md).
+**Status: v0.1.3, early beta.** The local build passes Papyrus compile, plugin validation, a byte-exact round trip and the SEQ check. The FOMOD schema check is skipped when xmllint is not installed, and the cross-mod compatibility check (`collisions-ci`) runs in CI, not in the local build. A tester has played the previous version (0.1.2) in game, which led to the fixes in this release. Version 0.1.3 itself has not been playtested in game yet. Expect rough edges and please report what you find. See [docs/TESTING.md](docs/TESTING.md).
 
 - Game: Skyrim Special Edition / Anniversary Edition 1.6.x (1.5.97 also works). Runs on Windows, and on Linux through Proton.
 - Requirements: just the base game. No SKSE, SkyUI, DLC or Creation Club content.
