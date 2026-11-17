@@ -152,7 +152,8 @@ internal sealed class Builder
         props.Add(Vmad.Obj("RWD_HealingPotions", potions.FormKey));
         props.Add(Vmad.Obj("RWD_HealingSpells", spells.FormKey));
         props.Add(Vmad.ObjList("AvoidLocationTypes", LocTypeCity, LocTypeTown, LocTypeSettlement, LocTypeDwelling,
-            LocTypePlayerHouse, LocTypeOrcStronghold)); // 0.1.1: Habitation, Dungeon, BanditCamp, MilitaryFort dropped (their exterior areas cover much of the road network; interiors are excluded anyway)
+            LocTypePlayerHouse)); // 0.1.1: Habitation, Dungeon, BanditCamp, MilitaryFort dropped (their exterior areas cover much of the road network; interiors are excluded anyway)
+        props.Add(Vmad.Obj("LocTypeOrcStronghold", LocTypeOrcStronghold)); // 0.1.3: own property, not appended to AvoidLocationTypes (saves keep old array values)
         props.Add(Vmad.Obj("RWD_AvoidLocations", avoid.FormKey));
         props.Add(Vmad.ObjList("TownMarkers", TownMarkers));
         props.Add(Vmad.Obj("MQ101", MQ101));

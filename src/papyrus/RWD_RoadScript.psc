@@ -60,7 +60,9 @@ MiscObject Property Gold001 Auto
 FormList Property RWD_HealingPotions Auto
 FormList Property RWD_HealingSpells Auto
 Keyword[] Property AvoidLocationTypes Auto
-{No encounters (and no markers) inside these: cities, towns, settlements, homes, player houses, Orc strongholds. Interiors (dungeons, inns, forts inside) are always excluded.}
+{No encounters (and no markers) inside these: cities, towns, settlements, homes, player houses. Interiors (dungeons, inns, forts inside) are always excluded.}
+Keyword Property LocTypeOrcStronghold Auto
+{0.1.3: Orc strongholds are excluded like AvoidLocationTypes. A separate property because saves keep the old array value; new properties are filled from the plugin.}
 FormList Property RWD_AvoidLocations Auto
 {Populated places whose location type is not reliable (College of Winterhold, towns, stables, Orc strongholds and their mines, Bilegulch Mine, ...). Everything inside them is excluded too.}
 ObjectReference[] Property TownMarkers Auto
@@ -244,6 +246,9 @@ String Function LocationRule(Location here)
 		EndIf
 		i += 1
 	EndWhile
+	If LocTypeOrcStronghold && here.HasKeyword(LocTypeOrcStronghold)
+		Return "keyword " + LocTypeOrcStronghold + " on " + here
+	EndIf
 	If RWD_AvoidLocations
 		Int n = RWD_AvoidLocations.GetSize()
 		i = 0
@@ -299,6 +304,9 @@ Function CacheDlcLocations()
 	dlcAvoid[2] = Game.GetFormFromFile(0x0143BA, "Dragonborn.esm") as Location ; DLC2ThirskMeadHallLocation
 	dlcAvoid[3] = Game.GetFormFromFile(0x0143BB, "Dragonborn.esm") as Location ; DLC2SkaalVillageLocation
 	dlcAvoid[4] = Game.GetFormFromFile(0x0143BC, "Dragonborn.esm") as Location ; DLC2TelMithrynLocation
+	If !LocTypeOrcStronghold
+		LocTypeOrcStronghold = Game.GetFormFromFile(0x0130E9, "Skyrim.esm") as Keyword ; fallback if the property was not filled
+	EndIf
 	hereChecked = False
 EndFunction
 

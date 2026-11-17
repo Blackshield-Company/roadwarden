@@ -33,6 +33,7 @@ Useful: `help "Highwayman" 4`, `help "Deserter" 4`, `help "Traveling Merchant" 4
    - [ ] Nothing happens in towns, cities, settlements, homes or interiors, during combat, or within 2 minutes after a fight (normal mode, `RWD_ForceNext 0`).
    - [ ] With `RWD_Debug 1`, `set RWD_ForceNext to 1` on the College of Winterhold grounds (by the statue), at Whiterun stables and in Raven Rock: no encounter, and the log says `not roadside (location list: ...)` or `(near town: ...)`.
    - [ ] Same at Dushnikh Yal, Narzulbur (and by Gloombound Mine) and outside Bilegulch Mine behind the forge: no encounter, and the log says `not roadside (keyword ...)` or `(location list: ...)`.
+   - [ ] Repeat the Dushnikh Yal check on a save made with 0.1.2 and loaded with 0.1.3: the log still says `not roadside (keyword ...)` for the Orc Stronghold keyword.
    - [ ] After an encounter, walking about 90 m away removes the leftover actors (check with `prid <id>` that they are gone).
    - [ ] Save and reload during an encounter: it keeps running and cleans up afterwards.
    - [ ] `set RWD_Enabled to 0`: no new encounters.

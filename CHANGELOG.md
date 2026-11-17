@@ -4,10 +4,10 @@ All notable changes to this project are documented here. Versions follow [Semant
 
 ## [0.1.3] - 2026-11-17
 
-Still early beta. This release addresses a tester report (Antaresan) of a merchant encounter, with its wolves, firing at Bilegulch Mine behind the forge.
+Still early beta. This release addresses a tester report (Antaresan) from playing 0.1.2 in game: a merchant encounter, with its wolves, fired at Bilegulch Mine behind the forge. 0.1.3 itself has not been playtested in game yet.
 
 ### Fixed
-- Encounters could fire in Orc strongholds and at Bilegulch Mine. Every encounter now skips locations tagged Orc Stronghold, the same way it skips cities, towns, settlements, dwellings and player houses.
+- Encounters could fire in Orc strongholds and at Bilegulch Mine. Every encounter now skips locations tagged Orc Stronghold, the same way it skips cities, towns, settlements, dwellings and player houses. The keyword is a new script property (`LocTypeOrcStronghold`) rather than an addition to `AvoidLocationTypes`, so it also takes effect on saves upgraded from 0.1.2, which keep their old `AvoidLocationTypes` value.
 - Bilegulch Mine is excluded explicitly. It is not one of the four strongholds and not Mor Khazgur's mine: it is a separate Orc bandit mine in Falkreath Hold, northwest of Falkreath, built on a cut stronghold (Makbur), with a forge and stronghold-style buildings.
 
 ### Added
