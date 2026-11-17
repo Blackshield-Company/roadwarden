@@ -41,6 +41,7 @@ internal static class Vanilla
     public static readonly FormKey LocTypeBanditCamp = K(0x0130DF);
     public static readonly FormKey LocTypeDungeon = K(0x0130DB);
     public static readonly FormKey LocTypeMilitaryFort = K(0x0130E7);
+    public static readonly FormKey LocTypeOrcStronghold = K(0x0130E9);
 
     // Populated places that are not reliably tagged City/Town/Settlement/Dwelling (RWD_AvoidLocations).
     // A location here also covers every location under it (Location.IsChild). Never put a hold here.
@@ -74,6 +75,21 @@ internal static class Vanilla
         K(0x018A4C), // ShorsStoneLocation
         K(0x018A4E), // KynesgroveLocation
         K(0x018A55), // OldHroldanLocation
+        // 0.1.3: the four Orc strongholds, their mines and longhouses (listed explicitly, not left to IsChild)
+        K(0x019171), // DushnikhYalLocation
+        K(0x01F7FE), // DushnikhYalMineLocation
+        K(0x01F7FD), // DushnikhYalBurguksLonghouseLocation
+        K(0x01927C), // MorKhazgurLocation
+        K(0x01F802), // MorKhazgurMineLocation
+        K(0x01F801), // MorKhazgurLaraksLonghouseLocation
+        K(0x019282), // NarzulburLocation
+        K(0x018E31), // GloomboundMineLocation (Narzulbur's mine)
+        K(0x10FE2D), // GloomboundMineMineLocation
+        K(0x020A00), // NarzulburMauhulakhsLonghouseLocation
+        K(0x019263), // LargashburLocation (no mine)
+        K(0x03BC2B), // LargashburLonghouseLocation
+        // Bilegulch Mine (Falkreath Hold): Orc bandit mine built on the cut Makbur stronghold, not part of Mor Khazgur
+        K(0x019269), // BilegulchMineLocation
     };
 
     // Map markers just outside the walled cities and the College (RWD_TownRadius around each, Tamriel worldspace).

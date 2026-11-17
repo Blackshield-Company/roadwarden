@@ -61,8 +61,10 @@ FormList Property RWD_HealingPotions Auto
 FormList Property RWD_HealingSpells Auto
 Keyword[] Property AvoidLocationTypes Auto
 {No encounters (and no markers) inside these: cities, towns, settlements, homes, player houses. Interiors (dungeons, inns, forts inside) are always excluded.}
+Keyword Property LocTypeOrcStronghold Auto
+{0.1.3: Orc strongholds are excluded like AvoidLocationTypes. A separate property because saves keep the old array value; new properties are filled from the plugin.}
 FormList Property RWD_AvoidLocations Auto
-{Populated places whose location type is not reliable (College of Winterhold, towns, stables, ...). Everything inside them is excluded too.}
+{Populated places whose location type is not reliable (College of Winterhold, towns, stables, Orc strongholds and their mines, Bilegulch Mine, ...). Everything inside them is excluded too.}
 ObjectReference[] Property TownMarkers Auto
 {Map markers just outside the walled cities and the College. Nothing within RWD_TownRadius of them.}
 Quest Property MQ101 Auto
@@ -129,7 +131,7 @@ EndEvent
 
 ; Startup/load heartbeat so players (and bug reports) can tell the controller is running.
 Function Announce(String asWhy)
-	Debug.Trace("[Roadwarden] RWD_ controller " + asWhy + " (v0.1.2): enabled=" + RWD_Enabled.GetValueInt() + " chance=" + RWD_ChancePct.GetValueInt() + "% every " + RWD_CheckSeconds.GetValueInt() + "s, cooldown " + RWD_CooldownHours.GetValue() + "h, encounters so far " + RWD_EncounterCount.GetValueInt())
+	Debug.Trace("[Roadwarden] RWD_ controller " + asWhy + " (v0.1.3): enabled=" + RWD_Enabled.GetValueInt() + " chance=" + RWD_ChancePct.GetValueInt() + "% every " + RWD_CheckSeconds.GetValueInt() + "s, cooldown " + RWD_CooldownHours.GetValue() + "h, encounters so far " + RWD_EncounterCount.GetValueInt())
 	If RWD_Notify.GetValueInt() != 0
 		Debug.Notification("Roadwarden active")
 	EndIf
@@ -244,6 +246,9 @@ String Function LocationRule(Location here)
 		EndIf
 		i += 1
 	EndWhile
+	If LocTypeOrcStronghold && here.HasKeyword(LocTypeOrcStronghold)
+		Return "keyword " + LocTypeOrcStronghold + " on " + here
+	EndIf
 	If RWD_AvoidLocations
 		Int n = RWD_AvoidLocations.GetSize()
 		i = 0
@@ -299,6 +304,9 @@ Function CacheDlcLocations()
 	dlcAvoid[2] = Game.GetFormFromFile(0x0143BA, "Dragonborn.esm") as Location ; DLC2ThirskMeadHallLocation
 	dlcAvoid[3] = Game.GetFormFromFile(0x0143BB, "Dragonborn.esm") as Location ; DLC2SkaalVillageLocation
 	dlcAvoid[4] = Game.GetFormFromFile(0x0143BC, "Dragonborn.esm") as Location ; DLC2TelMithrynLocation
+	If !LocTypeOrcStronghold
+		LocTypeOrcStronghold = Game.GetFormFromFile(0x0130E9, "Skyrim.esm") as Keyword ; fallback if the property was not filled
+	EndIf
 	hereChecked = False
 EndFunction
 
